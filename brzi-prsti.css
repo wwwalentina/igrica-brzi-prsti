@@ -1,0 +1,135 @@
+body {
+			background: #000407;
+			background-image: url(back.jpg);
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: cover;
+		}
+		.content-wrapper {
+			height: 100vh;
+		}
+
+		.table-wrapper {	
+			position: absolute;
+			width: 100%;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+
+		.word {
+			width: 50%;
+			margin: 0 auto;
+			text-align: center;
+		}
+
+
+		.word span {
+			display: inline-block;
+			margin: 1rem;
+			padding: .5rem 1rem;
+			font-size: 1rem;
+			border-radius: 50%;
+			position: relative;
+			background: #ccff33;
+			color: #000407;
+			animation-duration: 3s;		
+			animation-delay: 2s;
+			transition-timing-function: ease-out;
+		}
+
+		.word span.off {
+			background: transparent;
+			color: rgba(134,255,0,1);
+		}
+
+		.word span:before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 40px;
+			height: 40px;
+			background: #ff0;
+			border-radius: 50%;
+			background: rgba(134,255,0,.5);	
+			box-shadow: 0 0 20px rgba(134,255,0,.5),
+						0 0 40px rgba(134,255,0,.5),
+						0 0 60px rgba(134,255,0,.1);						
+		}
+
+		.word span.off:before {
+			box-shadow: 0 0 20px rgba(130,245,0,1);
+		}
+
+		.word span:active {
+			background: lightgreen;
+			color: green;
+		}
+
+		.word span:nth-child(1) {
+			animation-name: move;	
+		}
+
+		.word span:nth-child(2) {
+			animation-name: move;
+		}
+	
+		.word span:nth-child(3) {
+			animation-name: move;
+		}
+
+
+		.word span:nth-child(4) {
+			animation-name: move;
+		}
+
+
+		.word span:nth-child(5) {
+			animation-name: move;
+		}
+
+		:root {
+			left: 0px; 
+			top: 0px; 
+		}
+
+		@keyframes move {
+			0%   {left:0px; top:0px;}
+			100% {var(left); var(top); display: block; transition-timing-function: ease-out;}
+		}
+
+
+		#countdown {
+			font-size: 2rem;
+			color: rgba(134,255,0,.5);
+		}
+
+		p {
+			padding: 0 1rem;
+			font-size: 3rem;
+			color: #fff;	
+			text-shadow: 0 0 20px #ff005b;
+		}
+
+		p:after {
+			content: attr(data-text);
+			position: absolute;
+   			top: 28%;
+    		left: 50%;
+    		transform: translate(-50%, -50%);
+			padding: 0 1rem;
+			z-index: -1;
+			color: #ff005b;
+			filter: blur(-15px); 
+		}
+
+		#refresh {
+			color: #ff669c;
+			background: #e60050;
+			font-size: 1rem;
+			border: none;
+			border-radius: 100px;
+			padding: 0.5rem 2rem;
+			box-shadow: 0 0 50px #e60050, 0 0 21px #e60050;
+			outline: none;
+		}

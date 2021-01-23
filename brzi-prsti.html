@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="brzi-prsti.css">
+	<title></title>
+</head>
+<body>			
+	<div class="content-wrapper">
+		<div id="countdown"></div>
+		<div class="table-wrapper">
+			<div class="word">
+				
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">		
+
+		$(document).ready(function() {
+			var wordArray = ["P", "O", "S", "A", "O"];	
+			var deviceWidth = window.screen.width;
+			var deviceHeight = window.screen.height;
+
+			$.each(wordArray, function( index, value ) {
+				$(".word").append("<span value='" + value + "' class='letter letter" + index + "'>" + value +"</span>");
+			});
+
+
+			setTimeout(function() {
+
+				var positionLeft = [];
+				var positionTop = [];
+				var rectX = [];
+				var rectY = [];
+
+				$('.letter').each(function(i, element) {						
+					rectX[i] = element.getBoundingClientRect().x;
+					rectY[i] = element.getBoundingClientRect().y;
+				});
+
+				for (i=0; i<5; i++) {
+					var positionLeftTmp = (Math.random() - 0.5) * (deviceWidth - (deviceWidth * 0.30));
+					var positionTopTmp = (Math.random() - 0.5) * (deviceHeight - (deviceHeight * 0.30));
+
+					while (!corectPossition(positionLeftTmp, positionTopTmp, i)) {
+						positionLeftTmp = (Math.random() - 0.5) * (deviceWidth - (deviceWidth * 0.30));
+						positionTopTmp = (Math.random() - 0.5) * (deviceHeight - (deviceHeight * 0.30));
+					}
+
+					positionLeft[i] = positionLeftTmp;
+					positionTop[i] = positionTopTmp;
+
+					rectX[i] = rectX[i] + positionLeftTmp;
+					rectY[i] = rectY[i] + positionTopTmp;
+
+				}
+				$('.letter').each(function(i, element) {						
+					$(element).css("left", positionLeft[i]);
+					$(element).css("top", positionTop[i]);
+				});
+
+				function corectPossition(positionX, positionY, n) {
+					for(j=0; j<n; j++) {
+						var xDifference = Math.abs(rectX[j]-(rectX[n]+positionX));
+						var yDifference = Math.abs(rectY[j]-(rectY[n]+positionY));
+						if (xDifference < 50 && yDifference < 50) {
+							return false;
+						}
+					}
+					return true;
+				}
+
+			}, 2000);
+
+
+			setTimeout(function() {
+
+				var interval1;
+				var counter;
+
+				if (deviceWidth <= 425) {
+					counter = 5;
+				} else {
+					counter = 4;
+				}	
+
+				var count = 1; 
+				startSetInterval();
+
+				function countdownFunction() { 		            
+					$("#countdown").html(counter);
+					if (counter == 0) {						
+						location.reload();
+					}
+					counter--;	
+					count = count + 1; 
+				} 
+
+				function noDelaySetInterval(func, interval) { 
+					func(); 
+					interval1 = setInterval(func, interval);		            
+					return interval; 		            
+				} 
+
+				function startSetInterval() { 
+					noDelaySetInterval(countdownFunction, 1000); 
+				} 
+
+				var makeArray = [];
+
+				$(".letter").click(function() {
+					var value = $(this).text();
+					$(this).addClass("off");
+					makeArray.push(value);
+
+					if(makeArray.length == 5 && JSON.stringify(wordArray) !== JSON.stringify(makeArray)){				  		
+						location.reload();
+					} else if (makeArray.length == 5 && $('.word .letter').length !== $('.word .letter.off').length) {
+						location.reload();
+					} else if (JSON.stringify(wordArray) === JSON.stringify(makeArray)) {
+						$(".word").empty();
+						clearInterval(interval1);
+						$(".word").append("<p data-text='Bravo!'>Bravo!</p>");
+						$(".word").append("<button id='refresh'>Igraj ponovo</button>");
+						$('#refresh').click(function() {
+							location.reload();
+						});
+					}
+				});
+				
+			}, 5000);
+
+		});
+
+	</script>
+</body>
+</html>
